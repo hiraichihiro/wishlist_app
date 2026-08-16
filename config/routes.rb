@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root 'wishes#index'
+  root 'home#index'
+  get "home/index"
+  
   
   resources :wishes do
     collection do
