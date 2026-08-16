@@ -1,44 +1,43 @@
-<h1><%= @wish.title %></h1>
+<div style="max-width: 600px; margin: 40px auto; padding: 35px 30px; background: #ffffff; border-radius: 28px; border: 2.5px solid #ffe6f2; box-shadow: 0 8px 24px rgba(255, 179, 217, 0.2);">
+  <h1 style="color: #ff80bf; margin-top: 0; font-size: 1.6rem; font-weight: 800;"><%= @wish.title %></h1>
 
-<p>目標金額: <%= number_to_currency(@wish.target_amount, unit: "円", precision: 0) %></p>
-<p>現在の貯金額: <%= number_to_currency(@wish.total_saved, unit: "円", precision: 0) %></p>
-<p>進捗: <%= @wish.progress_percentage %>%</p>
-<% if @wish.deadline %>
-  <p>期限: <%= @wish.deadline %></p>
-<% end %>
-<% if @wish.link_url.present? %>
-  <p><%= link_to "商品ページへ", @wish.link_url, target: "_blank" %></p>
-<% end %>
-
-<hr>
-
-<h3>貯金を記録する</h3>
-<%= form_with model: [@wish, @saving], local: true do |f| %>
-  <div>
-    <%= f.label :amount, "金額 (円)" %><br>
-    <%= f.number_field :amount, required: true %>
+  <div style="background: #fff0f7; padding: 18px; border-radius: 18px; margin-bottom: 25px; color: #8a7b8e;">
+    <p style="margin: 6px 0;"><strong>目標金額:</strong> <%= number_to_currency(@wish.target_amount, unit: "円", precision: 0, format: "%n%u") %></p>
+    <p style="margin: 6px 0;"><strong>現在の貯金:</strong> <%= number_to_currency(@wish.total_saved, unit: "円", precision: 0, format: "%n%u") %> (<%= @wish.progress_percentage %>%)</p>
+    <% if @wish.deadline %>
+      <p style="margin: 6px 0;"><strong>目標期限:</strong> <%= @wish.deadline %></p>
+    <% end %>
   </div>
-  <div>
-    <%= f.label :memo, "メモ" %><br>
-    <%= f.text_field :memo, placeholder: "外食を我慢した、など" %>
-  </div>
-  <br>
-  <%= f.submit "貯金する" %>
-<% end %>
 
-<hr>
+  <hr style="border: none; border-top: 2px dashed #ffe6f2; margin: 25px 0;">
 
-<h3>貯金履歴</h3>
-<ul>
-  <% @wish.savings.order(created_at: :desc).each do |saving| %>
-    <li>
-      <%= saving.created_at.strftime("%Y/%m/%d %H:%M") %> : 
-      +<%= number_to_currency(saving.amount, unit: "円", precision: 0) %> 
-      (<%= saving.memo %>)
-    </li>
+  <h3 style="color: #8a7b8e; font-size: 1.1rem; font-weight: 800;">🍰 貯金を記録する</h3>
+  <%= form_with model: [@wish, @saving], local: true do |f| %>
+    <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+      <%= f.number_field :amount, placeholder: "金額 (円)", required: true, style: "border-radius: 14px; border: 1.5px solid #ffe6f2; padding: 10px 14px; background: #fffcfd; color: #8a7b8e; flex: 1; font-family: inherit;" %>
+      <%= f.text_field :memo, placeholder: "メモ (例: スイーツ代節約)", style: "border-radius: 14px; border: 1.5px solid #ffe6f2; padding: 10px 14px; background: #fffcfd; color: #8a7b8e; flex: 1; font-family: inherit;" %>
+    </div>
+    <%= f.submit "貯金する", style: "width: 100%; border-radius: 20px; font-weight: 800; padding: 10px; background: #70d6ff; border: none; color: #ffffff; cursor: pointer; box-shadow: 0 4px 12px rgba(112, 214, 255, 0.4); font-family: inherit;" %>
   <% end %>
-</ul>
 
-<%= link_to '編集', edit_wish_path(@wish) %> |
-<%= link_to '削除', wish_path(@wish), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' } %> |
-<%= link_to '一覧へ戻る', wishes_path %>
+  <hr style="border: none; border-top: 2px dashed #ffe6f2; margin: 25px 0;">
+
+  <h3 style="color: #8a7b8e; font-size: 1.1rem; font-weight: 800;">💌 貯金履歴</h3>
+  <ul style="padding-left: 20px; color: #8a7b8e;">
+    <% @wish.savings.order(created_at: :desc).each do |saving| %>
+      <li style="margin-bottom: 8px;">
+        <%= saving.created_at.strftime("%m/%d %H:%M") %> : 
+        <strong style="color: #70d6ff;">+<%= number_to_currency(saving.amount, unit: "円", precision: 0, format: "%n%u") %></strong>
+        <% if saving.memo.present? %> (<%= saving.memo %>)<% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
+    <%= link_to '← 一覧に戻る', wishes_path, style: "color: #70d6ff; text-decoration: none; font-weight: 700;" %>
+    <div style="display: flex; gap: 8px;">
+      <%= link_to '編集', edit_wish_path(@wish), style: "background: #fff0f7; color: #ff80bf; padding: 6px 14px; border-radius: 12px; text-decoration: none; font-size: 0.85rem; font-weight: 700;" %>
+      <%= link_to '削除', wish_path(@wish), data: { turbo_method: :delete, turbo_confirm: '削除しますか？' }, style: "background: #f8f9fa; color: #adb5bd; padding: 6px 14px; border-radius: 12px; text-decoration: none; font-size: 0.85rem; font-weight: 700;" %>
+    </div>
+  </div>
+</div>

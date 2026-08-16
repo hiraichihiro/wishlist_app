@@ -1,17 +1,37 @@
-<h1>叶えたいこと・欲しいものリスト</h1>
-<%= link_to '+ 新しく登録する', new_wish_path %>
-
-<hr>
-
-<% @wishes.each do |wish| %>
-  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 8px;">
-    <h2><%= link_to wish.title, wish_path(wish) %></h2>
-    <p>目標金額: <%= number_to_currency(wish.target_amount, unit: "円", precision: 0) %></p>
-    <p>現在の貯金額: <%= number_to_currency(wish.total_saved, unit: "円", precision: 0) %> (<%= wish.progress_percentage %>%)</p>
-    
-    <!-- 簡易プログレスバー -->
-    <div style="background-color: #e0e0e0; border-radius: 4px; height: 15px; width: 100%;">
-      <div style="background-color: #4caf50; height: 100%; width: <%= wish.progress_percentage %>%; border-radius: 4px;"></div>
-    </div>
+<div style="max-width: 700px; margin: 40px auto; padding: 0 20px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1 style="font-size: 1.8rem; color: #ff80bf; margin: 0; font-weight: 800;">📝 叶えたいこと・欲しいものリスト</h1>
+    <%= link_to '＋ 新しく登録', new_wish_path, style: "border-radius: 20px; font-weight: 800; background: #ffb3d9; color: #ffffff; padding: 10px 22px; text-decoration: none; box-shadow: 0 4px 12px rgba(255, 179, 217, 0.4);" %>
   </div>
-<% end %>
+
+  <% @wishes.each do |wish| %>
+    <div style="margin-bottom: 25px; border-radius: 24px; border: 2.5px solid #ffe6f2; box-shadow: 0 8px 24px rgba(255, 179, 217, 0.2); background: #ffffff; padding: 22px;">
+      
+      <!-- 画像が設定されている場合表示 -->
+      <% if wish.image.attached? %>
+        <div style="margin-bottom: 15px; text-align: center;">
+          <%= image_tag wish.image, style: "width: 100%; max-height: 220px; object-fit: cover; border-radius: 18px; border: 1.5px solid #ffe6f2;" %>
+        </div>
+      <% end %>
+
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2 style="margin: 0; font-size: 1.3rem;">
+          <%= link_to wish.title, wish_path(wish), style: "color: #ff80bf; text-decoration: none; font-weight: 800;" %>
+        </h2>
+        <span style="border-radius: 12px; padding: 4px 12px; font-size: 0.8rem; background: #fff0f7; color: #ff80bf; font-weight: 700;">
+          あと <%= number_to_currency(wish.target_amount - wish.total_saved, unit: "円", precision: 0, format: "%n%u") %>
+        </span>
+      </div>
+
+      <div style="margin: 15px 0 8px 0; display: flex; justify-content: space-between; font-size: 0.9rem; color: #8a7b8e;">
+        <span>貯金額: <strong style="color: #70d6ff;"><%= number_to_currency(wish.total_saved, unit: "円", precision: 0, format: "%n%u") %></strong></span>
+        <span>目標: <%= number_to_currency(wish.target_amount, unit: "円", precision: 0, format: "%n%u") %> (<%= wish.progress_percentage %>%)</span>
+      </div>
+
+      <!-- 虹色プログレスバー -->
+      <div style="background-color: #fafafa; border-radius: 10px; height: 14px; width: 100%; overflow: hidden; padding: 2px; border: 1px solid #f0f0f0;">
+        <div style="background: linear-gradient(90deg, #a8edd9 0%, #b8e994 30%, #74b9ff 60%, #ffc4d6 100%); height: 100%; width: <%= wish.progress_percentage %>%; border-radius: 8px; transition: width 0.5s;"></div>
+      </div>
+    </div>
+  <% end %>
+</div>

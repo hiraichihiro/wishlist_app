@@ -1,2 +1,38 @@
-<h1>Wishes#edit</h1>
-<p>Find me in app/views/wishes/edit.html.erb</p>
+<div style="max-width: 500px; margin: 40px auto; padding: 35px 30px; background: #ffffff; border-radius: 28px; border: 2.5px solid #ffe6f2; box-shadow: 0 8px 24px rgba(255, 179, 217, 0.2);">
+  <h1 style="font-size: 1.5rem; color: #ff80bf; margin-top: 0; margin-bottom: 25px; text-align: center; font-weight: 800; letter-spacing: 0.5px;">
+    ✏️ 内容を編集
+  </h1>
+
+  <%= form_with model: @wish, local: true do |f| %>
+    <div style="margin-bottom: 18px;">
+      <%= f.label :title, "叶えたいこと・欲しいもの", style: "font-weight: 700; color: #8a7b8e; display: block; margin-bottom: 6px; font-size: 0.95rem;" %>
+      <%= f.text_field :title, required: true, style: "width: 100%; border-radius: 14px; border: 1.5px solid #ffe6f2; padding: 10px 14px; background: #fffcfd; color: #8a7b8e; font-family: inherit; font-size: 0.95rem;" %>
+    </div>
+
+    <div style="margin-bottom: 18px;">
+      <%= f.label :target_amount, "目標金額 (円)", style: "font-weight: 700; color: #8a7b8e; display: block; margin-bottom: 6px; font-size: 0.95rem;" %>
+      <%= f.number_field :target_amount, required: true, style: "width: 100%; border-radius: 14px; border: 1.5px solid #ffe6f2; padding: 10px 14px; background: #fffcfd; color: #8a7b8e; font-family: inherit; font-size: 0.95rem;" %>
+    </div>
+
+    <div style="margin-bottom: 18px;">
+      <%= f.label :deadline, "目標期限", style: "font-weight: 700; color: #8a7b8e; display: block; margin-bottom: 6px; font-size: 0.95rem;" %>
+      <%= f.date_field :deadline, style: "width: 100%; border-radius: 14px; border: 1.5px solid #ffe6f2; padding: 10px 14px; background: #fffcfd; color: #8a7b8e; font-family: inherit; font-size: 0.95rem;" %>
+    </div>
+
+    <div style="margin-bottom: 18px;">
+      <%= f.label :link_url, "商品URL", style: "font-weight: 700; color: #8a7b8e; display: block; margin-bottom: 6px; font-size: 0.95rem;" %>
+      <%= f.url_field :link_url, style: "width: 100%; border-radius: 14px; border: 1.5px solid #ffe6f2; padding: 10px 14px; background: #fffcfd; color: #8a7b8e; font-family: inherit; font-size: 0.95rem;" %>
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <%= f.label :memo, "メモ", style: "font-weight: 700; color: #8a7b8e; display: block; margin-bottom: 6px; font-size: 0.95rem;" %>
+      <%= f.text_area :memo, rows: 3, style: "width: 100%; border-radius: 14px; border: 1.5px solid #ffe6f2; padding: 10px 14px; background: #fffcfd; color: #8a7b8e; font-family: inherit; font-size: 0.95rem;" %>
+    </div>
+
+    <%= f.submit "更新する", style: "width: 100%; border-radius: 25px; font-weight: 800; padding: 12px; background: #ffb3d9; border: none; font-size: 1rem; color: #ffffff; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 179, 217, 0.4); font-family: inherit;" %>
+  <% end %>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <%= link_to '← 詳細に戻る', wish_path(@wish), style: "color: #70d6ff; text-decoration: none; font-size: 0.9rem; font-weight: 700;" %>
+  </div>
+</div>
