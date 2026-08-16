@@ -1,0 +1,44 @@
+<h1><%= @wish.title %></h1>
+
+<p>目標金額: <%= number_to_currency(@wish.target_amount, unit: "円", precision: 0) %></p>
+<p>現在の貯金額: <%= number_to_currency(@wish.total_saved, unit: "円", precision: 0) %></p>
+<p>進捗: <%= @wish.progress_percentage %>%</p>
+<% if @wish.deadline %>
+  <p>期限: <%= @wish.deadline %></p>
+<% end %>
+<% if @wish.link_url.present? %>
+  <p><%= link_to "商品ページへ", @wish.link_url, target: "_blank" %></p>
+<% end %>
+
+<hr>
+
+<h3>貯金を記録する</h3>
+<%= form_with model: [@wish, @saving], local: true do |f| %>
+  <div>
+    <%= f.label :amount, "金額 (円)" %><br>
+    <%= f.number_field :amount, required: true %>
+  </div>
+  <div>
+    <%= f.label :memo, "メモ" %><br>
+    <%= f.text_field :memo, placeholder: "外食を我慢した、など" %>
+  </div>
+  <br>
+  <%= f.submit "貯金する" %>
+<% end %>
+
+<hr>
+
+<h3>貯金履歴</h3>
+<ul>
+  <% @wish.savings.order(created_at: :desc).each do |saving| %>
+    <li>
+      <%= saving.created_at.strftime("%Y/%m/%d %H:%M") %> : 
+      +<%= number_to_currency(saving.amount, unit: "円", precision: 0) %> 
+      (<%= saving.memo %>)
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to '編集', edit_wish_path(@wish) %> |
+<%= link_to '削除', wish_path(@wish), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' } %> |
+<%= link_to '一覧へ戻る', wishes_path %>

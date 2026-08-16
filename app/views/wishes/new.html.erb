@@ -1,0 +1,29 @@
+<h1>叶えたいこと・欲しいものを登録</h1>
+
+<%= form_with model: @wish, local: true do |f| %>
+  <div>
+    <%= f.label :title, "叶えたいこと・欲しいもの" %><br>
+    <%= f.text_field :title, required: true %>
+  </div>
+  <div>
+    <%= f.label :target_amount, "目標金額 (円)" %><br>
+    <%= f.number_field :target_amount, required: true %>
+  </div>
+  <div>
+    <%= f.label :deadline, "目標期限" %><br>
+    <%= f.date_field :deadline %>
+  </div>
+  <div>
+    <%= f.label :link_url, "商品URL" %><br>
+    <%= f.url_field :link_url %>
+  </div>
+  <div>
+    <%= f.label :memo, "メモ" %><br>
+    <%= f.text_area :memo %>
+  </div>
+  <br>
+  <%= f.submit "登録する" %>
+<% end %>
+
+<br>
+<%= link_to '戻る', wishes_path %>

@@ -1,0 +1,17 @@
+<h1>叶えたいこと・欲しいものリスト</h1>
+<%= link_to '+ 新しく登録する', new_wish_path %>
+
+<hr>
+
+<% @wishes.each do |wish| %>
+  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 8px;">
+    <h2><%= link_to wish.title, wish_path(wish) %></h2>
+    <p>目標金額: <%= number_to_currency(wish.target_amount, unit: "円", precision: 0) %></p>
+    <p>現在の貯金額: <%= number_to_currency(wish.total_saved, unit: "円", precision: 0) %> (<%= wish.progress_percentage %>%)</p>
+    
+    <!-- 簡易プログレスバー -->
+    <div style="background-color: #e0e0e0; border-radius: 4px; height: 15px; width: 100%;">
+      <div style="background-color: #4caf50; height: 100%; width: <%= wish.progress_percentage %>%; border-radius: 4px;"></div>
+    </div>
+  </div>
+<% end %>
